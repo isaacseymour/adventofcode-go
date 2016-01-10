@@ -37,8 +37,8 @@ func main() {
 		count, brightness := aoc.Day6(strinput)
 		result = fmt.Sprintf("On: %d, brightness: %d", count, brightness)
 	case 7:
-		output := aoc.Day7(strinput)
-		result = fmt.Sprintf("Result! %d", output)
+		output1, output2 := aoc.Day7(strinput)
+		result = fmt.Sprintf("Result! %d, then %d", output1, output2)
 	}
 
 	fmt.Println(result)

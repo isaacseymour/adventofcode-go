@@ -7,10 +7,6 @@ import (
 	"sync"
 )
 
-var (
-	wires = make(map[string]*wire)
-)
-
 type wire struct {
 	id        string
 	signal    uint16
@@ -22,7 +18,8 @@ type wire struct {
 func (w *wire) Provide(signal uint16) {
 	w.lock.Lock()
 	if w.filled {
-		panic(fmt.Sprintf("Value provided twice to wire %s", w.id))
+		fmt.Printf("Value provided twice to wire %s. Original %d, new %d\n", w.id, w.signal, signal)
+		return
 	}
 
 	w.filled = true
@@ -97,8 +94,8 @@ func ensureWire(wires map[string]*wire, id string) *wire {
 	return w
 }
 
-func Day7(input string) uint16 {
-	for _, line := range strings.Split(input, "\n") {
+func applyRules(wires map[string]*wire, rules []string) {
+	for _, line := range rules {
 		sides := strings.Split(line, " -> ")
 
 		if len(sides) != 2 {
@@ -146,6 +143,13 @@ func Day7(input string) uint16 {
 		}
 
 	}
+}
+
+func Day7(input string) (uint16, uint16) {
+	rules := strings.Split(input, "\n")
+	wires := make(map[string]*wire)
+
+	applyRules(wires, rules)
 
 	resultWire, ok := wires["a"]
 
@@ -153,6 +157,20 @@ func Day7(input string) uint16 {
 		panic("Input doesn't define gate a??")
 	}
 
-	result := <-resultWire.Receive()
-	return result
+	result1 := <-resultWire.Receive()
+
+	wires = make(map[string]*wire)
+	b := ensureWire(wires, "b")
+	b.Provide(result1)
+
+	applyRules(wires, rules)
+
+	resultWire, ok = wires["a"]
+
+	if !ok {
+		panic("Input doesn't define gate a??")
+	}
+
+	result2 := <-resultWire.Receive()
+	return result1, result2
 }
