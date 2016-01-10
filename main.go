@@ -33,6 +33,9 @@ func main() {
 	case 5:
 		nice1, nice2 := aoc.Day5(strinput)
 		result = fmt.Sprintf("Nice1: %d; nice2: %d", nice1, nice2)
+	case 6:
+		count, brightness := aoc.Day6(strinput)
+		result = fmt.Sprintf("On: %d, brightness: %d", count, brightness)
 	}
 
 	fmt.Println(result)
