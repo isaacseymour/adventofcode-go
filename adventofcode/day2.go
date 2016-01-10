@@ -1,35 +1,12 @@
-package main
+package adventofcode
 
 import (
 	"errors"
 	"fmt"
-	"io/ioutil"
-	"os"
 	"sort"
 	"strconv"
 	"strings"
 )
-
-func Day1(input string) (int, int) {
-	var floor int = 0
-	var firstBasement int = -1
-
-	for index, char := range strings.Split(input, "") {
-		if char == "(" {
-			floor++
-		} else if char == ")" {
-			floor--
-		} else {
-			fmt.Print(fmt.Sprintf("ignoring invalid character %s", char))
-		}
-
-		if firstBasement == -1 && floor == -1 {
-			firstBasement = index + 1
-		}
-	}
-
-	return floor, firstBasement
-}
 
 type Box struct {
 	length int
@@ -90,25 +67,4 @@ func Day2(input string) (int, int) {
 	}
 
 	return totalArea, totalRibbon
-}
-
-func main() {
-	input, _ := ioutil.ReadAll(os.Stdin)
-	strinput := string(input)
-
-	day, _ := strconv.Atoi(os.Args[1])
-
-	fmt.Println("Day", day)
-
-	var result string
-	switch day {
-	case 1:
-		floor, firstBasement := Day1(strinput)
-		result = fmt.Sprintf("End floor: %d; first enters basement at %d", floor, firstBasement)
-	case 2:
-		area, ribbon := Day2(strinput)
-		result = fmt.Sprintf("Area: %d; ribbon: %d", area, ribbon)
-	}
-
-	fmt.Println(result)
 }
