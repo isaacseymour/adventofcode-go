@@ -39,6 +39,9 @@ func main() {
 	case 7:
 		output1, output2 := aoc.Day7(strinput)
 		result = fmt.Sprintf("Result! %d, then %d", output1, output2)
+	case 8:
+		output1, output2 := aoc.Day8(strinput)
+		result = fmt.Sprintf("Result! saving by unquoting: %d, cost of quoting: %d", output1, output2)
 	}
 
 	fmt.Println(result)
